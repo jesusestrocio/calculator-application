@@ -1,66 +1,3 @@
-// Stack Data Structure
-class Stack {
-    constructor() {
-      this.items = []; 
-    }
-  
-    // Push operation
-    push(element) {
-      this.items.push(element);
-    }
-  
-    // Pop operation
-    pop() {
-      if (this.isEmpty()) {
-        return "Stack is empty"; 
-      }
-      return this.items.pop();
-    }
-  
-    // Peek operation
-    peek() {
-      if (this.isEmpty()) {
-        return 0; 
-      }
-      return this.items[this.items.length - 1];
-    }
-  
-    // isEmpty operation
-    isEmpty() {
-      return this.items.length === 0;
-    }
-  
-    // Size operation
-    size() {
-      return this.items.length;
-    }
-  
-    // Print the stack 
-    print() {
-    //   console.log(this.items);
-    return this.items
-    }
-    inputFieldPrint(){
-        let output = '';
-        for(let i in this.items){
-            output += this.items[i];
-        }
-        return output;
-    }
-
-  }
-  
-  // Example Usage
-const stack = new Stack();
-
-const closeBracketButton = document.querySelector(".close-bracket");
-
-closeBracketButton.addEventListener("click", (event) => {
-  console.log('check open bracket')
-
-});
-
-
 // Add all valid values in a hash map
 let map = {};
 
@@ -85,80 +22,72 @@ map['+'] = 'value +';
 map['.'] = 'value .';
 
 map['Backspace'] = 'value backshift';
+map['='] = 'value =';
 // map['Shift'] = 'value shift';
 
 let inputField = '' ;
 
-document.addEventListener("keydown", function(event) {
-    console.log(event.key)
-    
-    if (event.key === "Backspace"){
-        if (stack.peak() === 0) {
-          console.log('Stack Empty')
-        }else {
-          stack.pop()
-          console.log(inputField)
-        }
+// 
+// + I need to ensure only the allowed keys can be pressed on the keyboard usinf the below function
+//
+document.addEventListener("keydown", function(event){
+  console.log(event.key)
+
+});
+
+let buttonClicked = document.querySelectorAll(".arithmetic-operator")
+let inputArea = document.querySelector(".input-area")
+let additionalArray = []
+let numberN = '';
+
+document.addEventListener("click", function(event) {
+  console.log(event.target.innerHTML)
+
+  let userInput = event.target.innerHTML
+
+  if (userInput in map){
+    console.log('True', userInput)
+    if (userInput !== '+' && userInput !== '='){
+      console.log("Addition Has NOT Been Hit")
+      numberN += userInput
+      console.log(numberN)
     }
-
-    if (event.key in map){
-      if (parseInt(event.key) > 0 || parseInt(event.ke) < 9){
-        stack.push(parseInt(event.key))
-      }else {
-        stack.push(event.key)
-      }
-        console.log(stack.print())
-        inputField = stack.inputFieldPrint();
-
-        document.querySelector('.input-area').value = inputField;
-        console.log('Valid Key')
-
+    if (userInput === '+'){
+      additionalArray.push(numberN)
+      numberN = '';
+      console.log(additionalArray)
     }
-    else if (event.key == 'Enter'){
-   
-      let no1 = '';
-      let no2 = '';
-      let symbol = '';
-      const stackLen = stack.size();
-
-      for (let i = 0; i < stackLen ; i++) {
-        let currentValue = stack.pop();
-        console.log(currentValue, no1, no2, symbol)
-        if (typeof currentValue == 'number'){
-          console.log('Current Value Is A Number')
-          if (typeof no1 == 'number'){
-            console.log('Third Loop')
-            if (symbol == '+'){
-              no1 = no1 + currentValue
-              console.log(no1, 'Addition')
-            }
-
-            if (symbol == '-'){
-              no1 = no1 - currentValue
-              console.log(no1, 'Subtraction')
-            }
-            
-            if (symbol == '*'){
-              no1 = no1 * currentValue
-              console.log(no1, 'Multiplication')
-            }
-
-            if (symbol == '/'){
-              no1 = currentValue / no1
-              console.log(no1, 'Division')
-            }
-
-          }else {
-            no1 = currentValue
-          }
-        } else {
-          symbol = currentValue
-        }
-          }
+    if (userInput === '='){
+      additionalArray.push(numberN)
+      console.log(additionalArray)
+      numberN = ''
+      inputArea.value = addNumbers(additionalArray)
+      console.log(addNumbers(additionalArray))
     }
-    else {
-        console.log('Invalid Key')
-    }
+  }
+});
 
-  });
+// function validation(userInput){
+//   if ( userInput !== '+' 
+//     && userInput !== '=' 
+//     && userInput !== ')'){
+//     return true 
+//   }
+//   return false
+// }
 
+function addNumbers (arrayOfNumbers) {
+  let total = 0;
+  for (let i = 0; i < arrayOfNumbers.length; i++) {
+    total += Number(additionalArray[i])
+  }
+  return total;
+}
+
+function subtractNumbers (arrayOfNumbers) {
+  let total = 0;
+  for (let i = 0; i < arrayOfNumbers.length; i++) {
+    total -= Number(additionalArray[i])
+  }
+  return total;
+}
