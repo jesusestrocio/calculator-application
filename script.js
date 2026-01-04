@@ -25,10 +25,26 @@ map['Backspace'] = 'value backshift';
 map['='] = 'value =';
 // map['Shift'] = 'value shift';
 
+let invalidButtonMap = {}
+invalidButtonMap[')'] = 'value )';
+invalidButtonMap['%'] = 'value %';
+invalidButtonMap['/'] = 'value /';
+invalidButtonMap['*'] = 'value *';
+invalidButtonMap['+'] = 'value +';
+invalidButtonMap['='] = 'value =';
+
+
+let operatorButtonMap = {}
+operatorButtonMap['/'] = 'value /';
+operatorButtonMap['*'] = 'value *';
+operatorButtonMap['-'] = 'value -';
+operatorButtonMap['+'] = 'value +';
+
+
 let inputField = '' ;
 
 // 
-// + I need to ensure only the allowed keys can be pressed on the keyboard usinf the below function
+// + I need to ensure only the allowed keys can be pressed on the keyboard using the below function
 //
 document.addEventListener("keydown", function(event){
   console.log(event.key)
@@ -37,57 +53,115 @@ document.addEventListener("keydown", function(event){
 
 let buttonClicked = document.querySelectorAll(".arithmetic-operator")
 let inputArea = document.querySelector(".input-area")
-let additionalArray = []
+let usersArray = []
 let numberN = '';
+let tempValueBracket = ''
+let tempValueSubract = ''
 
 document.addEventListener("click", function(event) {
-  console.log(event.target.innerHTML)
+  let usersButtonClick = event.target.innerHTML;
 
-  let userInput = event.target.innerHTML
 
-  if (userInput in map){
-    console.log('True', userInput)
-    if (userInput !== '+' && userInput !== '='){
-      console.log("Addition Has NOT Been Hit")
-      numberN += userInput
-      console.log(numberN)
+  if (usersArray.length % 2 == 0){
+    console.log("validates")
+  }
+
+  if (usersButtonClick in map && usersArray.length % 2 === 0){
+    console.log("3 And Validation")
+    if (usersButtonClick in invalidButtonMap ){
+      inputArea.value = 'Error!'
+      console.log('Error!')
     }
-    if (userInput === '+'){
-      additionalArray.push(numberN)
-      numberN = '';
-      console.log(additionalArray)
-    }
-    if (userInput === '='){
-      additionalArray.push(numberN)
-      console.log(additionalArray)
-      numberN = ''
-      inputArea.value = addNumbers(additionalArray)
-      console.log(addNumbers(additionalArray))
+    else {
+      inputArea.value += usersButtonClick
+      if (usersButtonClick === '('){
+        console.log('Awaiting Number')
+        tempValueBracket = '( )'
+      }
+      else if (usersButtonClick === '-'){
+        if (tempValueBracket !== ''){
+          tempValueBracket = '(-'
+        }
+        else {
+          console.log('Awaiting Number')
+          tempValueSubract = '- '
+        }
+      }
+      else {
+        if (tempValueBracket !== '' || tempValueSubract !== ''){
+          console.log('Temp Values')
+          if (tempValueBracket == ''){
+            tempValueSubract = tempValueSubract + usersButtonClick
+            console.log(tempValueSubract)
+            usersArray.push(tempValueSubract)
+            console.log(usersArray)
+            tempValueSubract = ''
+          } 
+          else if (tempValueBracket.length > 1){
+            tempValueBracket = '(-' + usersButtonClick + ')'
+            usersArray.push(tempValueBracket)
+            inputArea.value += ')'
+            console.log(usersArray)
+            tempValueBracket = ''
+          }
+          else {
+            tempValueBracket = '(' + usersButtonClick + ')'
+            usersArray.push(tempValueBracket)
+            inputArea.value += ')'
+            console.log(usersArray)
+            tempValueBracket = ''
+          }
+        }
+        else {
+          usersArray.push(usersButtonClick)
+          console.log(usersArray)
+        }
+      }
     }
   }
+  else if (usersButtonClick in operatorButtonMap && usersButtonClick !== '=') {
+    usersArray.push(usersButtonClick)
+    console.log(usersArray)
+  }
+
+  if (usersButtonClick === '='){
+    console.log('User Clicked =')
+    let total = 0
+    for (let i = 0; i > usersArray; i++){
+
+    if (i % 2 == 0){
+      if (usersArray[i][0] === '(' || usersArray[i][0] === '-'){
+        total = Number(usersArray[1])
+      }
+      else if (usersArray[i][1] == '-'){
+        total = Number(usersArray[2]) 
+      }
+      else {
+        total = Number(usersArray[i])
+      }
+    }
+      if (usersArray[i] == '-'){
+        total -= Number(usersArray[i+1])
+      }
+      
+      else if (usersArray[i] == '+'){
+        total += Number(usersArray[i+1])
+      }
+
+      else if (usersArray[i] == '*'){
+        total *= Number(usersArray[i+1])
+      }
+
+      else if (usersArray[i] == ''){
+        total /= Number(usersArray[i+1])
+      }
+
+    } 
+  }
+
 });
 
-// function validation(userInput){
-//   if ( userInput !== '+' 
-//     && userInput !== '=' 
-//     && userInput !== ')'){
-//     return true 
-//   }
-//   return false
-// }
 
-function addNumbers (arrayOfNumbers) {
-  let total = 0;
-  for (let i = 0; i < arrayOfNumbers.length; i++) {
-    total += Number(additionalArray[i])
-  }
-  return total;
-}
 
-function subtractNumbers (arrayOfNumbers) {
-  let total = 0;
-  for (let i = 0; i < arrayOfNumbers.length; i++) {
-    total -= Number(additionalArray[i])
-  }
-  return total;
-}
+
+
