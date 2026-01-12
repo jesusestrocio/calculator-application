@@ -55,8 +55,8 @@ let buttonClicked = document.querySelectorAll(".arithmetic-operator")
 let inputArea = document.querySelector(".input-area")
 let usersArray = []
 let numberN = '';
-let tempValueBracket = ''
-let tempValueSubract = ''
+let tempValueBracket = false ;
+let tempValueSubract = false ;
 
 document.addEventListener("click", function(event) {
   let usersButtonClick = event.target.innerHTML;
@@ -76,40 +76,42 @@ document.addEventListener("click", function(event) {
       inputArea.value += usersButtonClick
       if (usersButtonClick === '('){
         console.log('Awaiting Number')
-        tempValueBracket = '( )'
+        tempValueBracket = true
       }
       else if (usersButtonClick === '-'){
-        if (tempValueBracket !== ''){
-          tempValueBracket = '(-'
+        if (tempValueBracket == true) {
+          console.log('We Add Both ( and - to the number')
+          tempValueSubract = true
         }
         else {
           console.log('Awaiting Number')
-          tempValueSubract = '- '
+          tempValueSubract = true
         }
       }
       else {
-        if (tempValueBracket !== '' || tempValueSubract !== ''){
+        if (tempValueBracket !== false || tempValueSubract !== false ){
           console.log('Temp Values')
-          if (tempValueBracket == ''){
-            tempValueSubract = tempValueSubract + usersButtonClick
-            console.log(tempValueSubract)
-            usersArray.push(tempValueSubract)
+          if (tempValueBracket == false){
+            let tempValueSubractString = '-' + usersButtonClick
+            console.log(tempValueSubractString)
+            usersArray.push(tempValueSubractString)
             console.log(usersArray)
-            tempValueSubract = ''
+            tempValueSubract = false
           } 
-          else if (tempValueBracket.length > 1){
-            tempValueBracket = '(-' + usersButtonClick + ')'
-            usersArray.push(tempValueBracket)
+          else if (tempValueBracket == true && tempValueSubract == true){
+            let tempValueBracketWithSubtract = '(-' + usersButtonClick + ')'
+            usersArray.push(tempValueBracketWithSubtract)
             inputArea.value += ')'
             console.log(usersArray)
-            tempValueBracket = ''
+            tempValueBracket = false
+            tempValueSubract = false
           }
           else {
-            tempValueBracket = '(' + usersButtonClick + ')'
-            usersArray.push(tempValueBracket)
+            let tempValueBracketString = '(' + usersButtonClick + ')'
+            usersArray.push(tempValueBracketString)
             inputArea.value += ')'
             console.log(usersArray)
-            tempValueBracket = ''
+            tempValueBracket = false
           }
         }
         else {
@@ -123,40 +125,109 @@ document.addEventListener("click", function(event) {
     usersArray.push(usersButtonClick)
     console.log(usersArray)
   }
-
+// [(-1), + , 1, - , (-1), *, 3]
+// [2 * 9 + 6 - 8 / 7]
   if (usersButtonClick === '='){
     console.log('User Clicked =')
     let total = 0
-    for (let i = 0; i > usersArray; i++){
+    let tempValueOne = 0 ;
+    let tempValueTwo = 0;
+    let lenOfUserArray = usersArray.length
+    let divide, multiply, add , subtract = false
+    divide = true
+    let i = 0;
 
-    if (i % 2 == 0){
-      if (usersArray[i][0] === '(' || usersArray[i][0] === '-'){
-        total = Number(usersArray[1])
+    while (i < lenOfUserArray) {
+      console.log('While Loop')
+
+      if (divide == true) {
+        if (usersArray[i + 1] === '/'){
+          console.log(usersArray)
+          tempValueOne = Number(usersArray[i])
+          tempValueTwo = Number(usersArray [i + 2])
+          total = tempValueOne / tempValueTwo
+          console.log(total)
+          if (i == usersArray.length - 3){
+            usersArray[i] = String(total)
+          }
+          else {
+            usersArray[i+2] = String(total)
+          }
+        }
+        else if (i === usersArray.length - 1){
+          console.log('Divide >> Multiply')
+          divide = false
+          multiply = true
+          i = 0
+        }
       }
-      else if (usersArray[i][1] == '-'){
-        total = Number(usersArray[2]) 
+      if (multiply === true){
+        if (usersArray[i + 1] === '*'){
+          console.log(usersArray)
+          tempValueOne = Number(usersArray[i])
+          tempValueTwo = Number(usersArray [i + 2])
+          total = tempValueOne * tempValueTwo
+          console.log(total)
+          if (i == usersArray.length - 3){
+            usersArray[i] = String(total)
+          }
+          else {
+            usersArray[i+2] = String(total)
+          }
+        }
+        else if (i === usersArray.length - 1){
+          divide = false
+          multiply = false
+          add = true
+          i = 0
+        }
       }
-      else {
-        total = Number(usersArray[i])
+      if (add === true){
+      if (usersArray[i + 1] === '+'){
+        console.log(usersArray)
+        tempValueOne = Number(usersArray[i])
+        tempValueTwo = Number(usersArray[i+2])
+        total = tempValueOne + tempValueTwo
+        console.log(total)
+        if (i == usersArray.length - 3){
+          usersArray[i] = String(total)
+        }
+        else {
+          usersArray[i+2] = String(total)
+        }
+        }
+        else if (i == usersArray.length - 1){
+          divide = false
+          multiply = false
+          add = false
+          subtract = true
+          i = 0
+        }
       }
+      if (subtract === true){
+        if (usersArray[i + 1] === '-'){
+          console.log(usersArray)
+          tempValueOne = Number(usersArray[i])
+          tempValueTwo = Number(usersArray [i + 2])
+          total = tempValueOne - tempValueTwo
+          console.log(total)
+
+          if (i == usersArray.length - 3){
+            usersArray[i] = String(total)
+          }
+          else {
+            usersArray[i+2] = String(total)
+          }
+        }
+        else if (i == usersArray.length - 1){
+          divide = false
+          multiply = false
+          add = false
+          subtract = false
+        }
+      }
+      i++
     }
-      if (usersArray[i] == '-'){
-        total -= Number(usersArray[i+1])
-      }
-      
-      else if (usersArray[i] == '+'){
-        total += Number(usersArray[i+1])
-      }
-
-      else if (usersArray[i] == '*'){
-        total *= Number(usersArray[i+1])
-      }
-
-      else if (usersArray[i] == ''){
-        total /= Number(usersArray[i+1])
-      }
-
-    } 
   }
 
 });
