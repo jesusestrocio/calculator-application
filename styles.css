@@ -1,5 +1,9 @@
 :root {
-    --background-color: black;
+    --background-color:#0d3b66;
+    --text-color : #f4d35e;
+    --border-setting :2px solid;
+    ;
+    
   }
 *,
 * ::before,
@@ -15,9 +19,7 @@
 @media only screen and (max-width: 600px) {
   body {
     place-items: center;
-    border-style: solid;
-    border-color: navy;
-    border-width: 5px;
+    border: var(--border-setting);
 
   }
   header { 
@@ -25,12 +27,13 @@
       text-align: center;
       padding-bottom: 10px;
       padding-top: 10px;
-      border-width: 5px;
-      border-style: solid;
-      border-color: teal;
+      border: var(--border-setting) #0d3b66;
       width: 100%;
       margin-bottom: 5px;
+      background-color: #0d3b66;
+      color:  #f4d35e;   
     }
+
   .calculator-container {
     display: grid;
     gap: 3%;
@@ -108,13 +111,13 @@
   transform: translateY(5px);
   }
   footer {
-    border: solid red;
     background-color: whitesmoke;
     width: 100%;
+    background-color: var(--background-color);
+    color: var(--text-color);
   }
 
   .version-details {
-    border: 2px solid green;
     width: fit-content;
     justify-self: center;
   }

@@ -11,36 +11,36 @@
     <header>Calculator Application</header>
     <section class="calculator-container">
       <div class="input-container">
-        <input disabled class="input-area" value="">
+        <input disabled class="input-area" value="" name="users-input" readonly="true">
       </div>
       <div class="arithmetic-operators-container">
 
-        <button class="arithmetic-operator open-bracket">(</button>
-        <button class="arithmetic-operator close-bracket">)</button>
-        <button class="arithmetic-operator percentage">%</button>
-        <button class="arithmetic-operator clear">CE</button>
+        <button id="open-bracket" class="arithmetic-operator open-bracket" value="(">(</button>
+        <button id="close-bracket" class="arithmetic-operator close-bracket" value=")">)</button>
+        <button id="percentage" class="arithmetic-operator percentage operator" value="%">%</button>
+        <button id="clear" class="arithmetic-operator clear">CE</button>
 
-        <button class="arithmetic-operator seven">7</button>
-        <button class="arithmetic-operator eight">8</button>
-        <button class="arithmetic-operator nine">9</button>
-        <button class="arithmetic-operator division">/</button>
+        <button id="seven" class="arithmetic-operator seven number" value="7">7</button>
+        <button id="eight" class="arithmetic-operator eight number" value="8">8</button>
+        <button id="nine" class="arithmetic-operator nine number" value="9">9</button>
+        <button id="division" class="arithmetic-operator division operator" value="/">/</button>
 
-        <button class="arithmetic-operator four">4</button>
-        <button class="arithmetic-operator five">5</button>
-        <button class="arithmetic-operator six">6</button>
-        <button class="arithmetic-operator multiplication">*</button>
+        <button id="four" class="arithmetic-operator four number" value="4">4</button>
+        <button id="five" class="arithmetic-operator five number" value="5">5</button>
+        <button id="six" class="arithmetic-operator six number" value="6">6</button>
+        <button id="multiplication" class="arithmetic-operator multiplication operator" value="X">*</button>
 
-        <button class="arithmetic-operator one">1</button>
-        <button class="arithmetic-operator two">2</button>
-        <button class="arithmetic-operator three">3</button>
-        <button class="arithmetic-operator subtraction">-</button>
+        <button id="one" class="arithmetic-operator one number" value="1">1</button>
+        <button id="two" class="arithmetic-operator two number" value="2">2</button>
+        <button id="three" class="arithmetic-operator three number" value="3">3</button>
+        <button id="subtraction" class="arithmetic-operator subtraction operator" value="-">-</button>
 
-        <button class="arithmetic-operator zero">0</button>
-        <button class="arithmetic-operator decimal">.</button>
-        <button class="arithmetic-operator answer">ANS</button>
-        <button class="arithmetic-operator addition">+</button>
+        <button id="zero" class="arithmetic-operator zero number" value="0">0</button>
+        <button id="decimal" class="arithmetic-operator decimal" value=".">.</button>
+        <button id="answer" class="arithmetic-operator answer">ANS</button>
+        <button id="addition" class="arithmetic-operator addition operator" value="+">+</button>
 
-        <button class="arithmetic-operator equals">=</button>
+        <button id="equals" class="arithmetic-operator equals">=</button>
 
       </div>
     </section>

@@ -1,238 +1,194 @@
-// Add all valid values in a hash map
-let map = {};
 
-map['0'] = 'value 0';
-map['1'] = 'value 1';
-map['2'] = 'value 2';
-map['3'] = 'value 3';
-map['4'] = 'value 4';
-map['5'] = 'value 5';
-map['6'] = 'value 6';
-map['7'] = 'value 7';
-map['8'] = 'value 8';
-map['9'] = 'value 9';
+let userOutput = document.querySelector('.input-area')
 
-map['('] = 'value (';
-map[')'] = 'value )';
-map['%'] = 'value %';
-map['/'] = 'value /';
-map['*'] = 'value *';
-map['-'] = 'value -';
-map['+'] = 'value +';
-map['.'] = 'value .';
+let openBracketButton = document.getElementById("open-bracket");
+let closeBracketButton = document.getElementById("close-bracket");
 
-map['Backspace'] = 'value backshift';
-map['='] = 'value =';
-// map['Shift'] = 'value shift';
+let percentageButton = document.getElementById("percentage");
+let divisionButton = document.getElementById("division");
+let multiplcationButton = document.getElementById("multiplication");
+let subtractionButton = document.getElementById("subtraction");
+let additionButton = document.getElementById("addition");
 
-let invalidButtonMap = {}
-invalidButtonMap[')'] = 'value )';
-invalidButtonMap['%'] = 'value %';
-invalidButtonMap['/'] = 'value /';
-invalidButtonMap['*'] = 'value *';
-invalidButtonMap['+'] = 'value +';
-invalidButtonMap['='] = 'value =';
+let decimalButton = document.getElementById("decimal");
+
+let equalButton = document.getElementById("equals");
+
+let answerButton = document.getElementById("answer");
+
+let clearButton = document.getElementById("clear");
+
+let userClicks = document.querySelectorAll('.arithmetic-operator')
+
+let getNumber = document.querySelectorAll(".number")
+let getOperator = document.querySelectorAll(".operator")
+
+closeBracketButton.disabled = true;
+// subtractionButton.disabled = true;
 
 
-let operatorButtonMap = {}
-operatorButtonMap['/'] = 'value /';
-operatorButtonMap['*'] = 'value *';
-operatorButtonMap['-'] = 'value -';
-operatorButtonMap['+'] = 'value +';
+subtractionButton.addEventListener("click", function () {
+  console.log('Subtract Button Clicked -(Number)')
 
+  let preValueInString = userOutput.value.substring(0, userOutput.value.length - 1)
 
-let inputField = '' ;
+  console.log(preValueInString)
 
-// 
-// + I need to ensure only the allowed keys can be pressed on the keyboard using the below function
-//
-document.addEventListener("keydown", function(event){
-  console.log(event.key)
-
-});
-
-let buttonClicked = document.querySelectorAll(".arithmetic-operator")
-let inputArea = document.querySelector(".input-area")
-let usersArray = []
-let numberN = '';
-let tempValueBracket = false ;
-let tempValueSubract = false ;
-
-document.addEventListener("click", function(event) {
-  let usersButtonClick = event.target.innerHTML;
-
-
-  if (usersArray.length % 2 == 0){
-    console.log("validates")
+  if (preValueInString == "("){
+    subtractionButton.disabled = false;
+  } 
+  else if (preValueInString == "-"){
+    subtractionButton.disabled = true;
+  }
+  else if (preValueInString == "."){
+    subtractionButton.disabled = true;
   }
 
-  if (usersButtonClick in map && usersArray.length % 2 === 0){
-    console.log("3 And Validation")
-    if (usersButtonClick in invalidButtonMap ){
-      inputArea.value = 'Error!'
-      console.log('Error!')
+})
+
+function disabledOperator(booleanParameter){
+  console.log('Disable Function For All Operators')
+  getOperator.forEach(eachOperator => {
+    eachOperator.disabled = booleanParameter;
+  })
+
+  if (userOutput.value.length == 0) {
+    subtractionButton.disabled = false;
+  }
+
+}
+disabledOperator(true)
+
+
+userClicks.forEach((eachClick) => {
+  eachClick.addEventListener('click', function(e){
+    // console.log(e.target.value)
+    userOutput.value += e.target.value;
+    console.log(userOutput.value.length, userOutput.value)
+  
+  })
+})
+
+equalButton.addEventListener("click", function () {
+  console.log('Equal button clicked')
+
+  if (userOutput.value.length == 0){
+    equalButton.disabled = true;
+    console.log("Equal Button Disabled")
+  }
+  else (
+    console.log("Call A Function To Calculate The Equation")
+  )
+
+})
+  
+clearButton.addEventListener("click", function () {
+  console.log('delete button clicked')
+
+  if (userOutput.value.length == 0){
+    clearButton.disabled = true;
+    console.log("Clear Button Disabled")
+  }
+  else {
+      let newUserOutput = userOutput.value.substring(0, userOutput.value.length - 1)
+      userOutput.value = newUserOutput
+      clearButton.disabled = false;
+      disabledOperator(true)
+  }
+
+})
+
+
+openBracketButton.addEventListener("click", function () {
+  console.log('open-bracket clicked')
+  // userOutput.value += '(';
+
+  openBracketButton.disabled = true;
+  closeBracketButton.disabled = false;
+
+  disabledOperator(false)
+
+})
+
+
+closeBracketButton.addEventListener("click", function () {
+  
+  if (userOutput.value[userOutput.value.length - 2] == '(' ||
+    userOutput.value == ""
+  ){
+    console.log('Here')
+    closeBracketButton.disabled = true;
+    let newUserOutput = userOutput.value.substring(0, userOutput.value.length - 1)
+    userOutput.value = newUserOutput
+  }
+  else {
+    closeBracketButton.disabled = true;
+    openBracketButton.disabled = false;
+  }
+
+})
+
+
+getNumber.forEach(eachNumber => {
+  eachNumber.addEventListener('click', function(e){
+    console.log(e.target.value)
+
+  disabledOperator(false)
+  closeBracketButton.disabled = false;
+  })
+})
+
+getOperator.forEach(eachOperator => {
+  eachOperator.addEventListener('click', function(e){
+    console.log(e.target.value)
+
+    disabledOperator(true)
+    closeBracketButton.disabled = true;
+
+    if (e.target.value === '%'){
+      closeBracketButton.disabled = false;
+
     }
-    else {
-      inputArea.value += usersButtonClick
-      if (usersButtonClick === '('){
-        console.log('Awaiting Number')
-        tempValueBracket = true
-      }
-      else if (usersButtonClick === '-'){
-        if (tempValueBracket == true) {
-          console.log('We Add Both ( and - to the number')
-          tempValueSubract = true
-        }
-        else {
-          console.log('Awaiting Number')
-          tempValueSubract = true
-        }
-      }
-      else {
-        if (tempValueBracket !== false || tempValueSubract !== false ){
-          console.log('Temp Values')
-          if (tempValueBracket == false){
-            let tempValueSubractString = '-' + usersButtonClick
-            console.log(tempValueSubractString)
-            usersArray.push(tempValueSubractString)
-            console.log(usersArray)
-            tempValueSubract = false
-          } 
-          else if (tempValueBracket == true && tempValueSubract == true){
-            let tempValueBracketWithSubtract = '(-' + usersButtonClick + ')'
-            usersArray.push(tempValueBracketWithSubtract)
-            inputArea.value += ')'
-            console.log(usersArray)
-            tempValueBracket = false
-            tempValueSubract = false
-          }
-          else {
-            let tempValueBracketString = '(' + usersButtonClick + ')'
-            usersArray.push(tempValueBracketString)
-            inputArea.value += ')'
-            console.log(usersArray)
-            tempValueBracket = false
-          }
-        }
-        else {
-          usersArray.push(usersButtonClick)
-          console.log(usersArray)
-        }
-      }
-    }
-  }
-  else if (usersButtonClick in operatorButtonMap && usersButtonClick !== '=') {
-    usersArray.push(usersButtonClick)
-    console.log(usersArray)
-  }
-// [(-1), + , 1, - , (-1), *, 3]
-// [2 * 9 + 6 - 8 / 7]
-  if (usersButtonClick === '='){
-    console.log('User Clicked =')
-    let total = 0
-    let tempValueOne = 0 ;
-    let tempValueTwo = 0;
-    let lenOfUserArray = usersArray.length
-    let divide, multiply, add , subtract = false
-    divide = true
-    let i = 0;
 
-    while (i < lenOfUserArray) {
-      console.log('While Loop')
+  })
+})
 
-      if (divide == true) {
-        if (usersArray[i + 1] === '/'){
-          console.log(usersArray)
-          tempValueOne = Number(usersArray[i])
-          tempValueTwo = Number(usersArray [i + 2])
-          total = tempValueOne / tempValueTwo
-          console.log(total)
-          if (i == usersArray.length - 3){
-            usersArray[i] = String(total)
-          }
-          else {
-            usersArray[i+2] = String(total)
-          }
-        }
-        else if (i === usersArray.length - 1){
-          console.log('Divide >> Multiply')
-          divide = false
-          multiply = true
-          i = 0
-        }
-      }
-      if (multiply === true){
-        if (usersArray[i + 1] === '*'){
-          console.log(usersArray)
-          tempValueOne = Number(usersArray[i])
-          tempValueTwo = Number(usersArray [i + 2])
-          total = tempValueOne * tempValueTwo
-          console.log(total)
-          if (i == usersArray.length - 3){
-            usersArray[i] = String(total)
-          }
-          else {
-            usersArray[i+2] = String(total)
-          }
-        }
-        else if (i === usersArray.length - 1){
-          divide = false
-          multiply = false
-          add = true
-          i = 0
-        }
-      }
-      if (add === true){
-      if (usersArray[i + 1] === '+'){
-        console.log(usersArray)
-        tempValueOne = Number(usersArray[i])
-        tempValueTwo = Number(usersArray[i+2])
-        total = tempValueOne + tempValueTwo
-        console.log(total)
-        if (i == usersArray.length - 3){
-          usersArray[i] = String(total)
-        }
-        else {
-          usersArray[i+2] = String(total)
-        }
-        }
-        else if (i == usersArray.length - 1){
-          divide = false
-          multiply = false
-          add = false
-          subtract = true
-          i = 0
-        }
-      }
-      if (subtract === true){
-        if (usersArray[i + 1] === '-'){
-          console.log(usersArray)
-          tempValueOne = Number(usersArray[i])
-          tempValueTwo = Number(usersArray [i + 2])
-          total = tempValueOne - tempValueTwo
-          console.log(total)
+// percentageButton.addEventListener("click", function () {
+//   console.log('close-bracket clicked')
+//   userOutput.value += '%';
+// })
 
-          if (i == usersArray.length - 3){
-            usersArray[i] = String(total)
-          }
-          else {
-            usersArray[i+2] = String(total)
-          }
-        }
-        else if (i == usersArray.length - 1){
-          divide = false
-          multiply = false
-          add = false
-          subtract = false
-        }
-      }
-      i++
-    }
-  }
+// divisionButton.addEventListener("click", function () {
+//   console.log('close-bracket clicked')
+//   userOutput.value += '/';
+// })
 
-});
+// multiplcationButton.addEventListener("click", function () {
+//   console.log('close-bracket clicked')
+//   userOutput.value += 'X';
+// })
+
+// subtractionButton.addEventListener("click", function () {
+//   console.log('close-bracket clicked')
+//   userOutput.value += '-';
+// })
+
+// additionButton.addEventListener("click", function () {
+//   console.log('close-bracket clicked')
+//   userOutput.value += '+';
+// })
+
+// answerButton.addEventListener("click", function () {
+//   console.log('close-bracket clicked')
+//   userOutput.value += '<--In Progress';
+// })
+
+// decimalButton.addEventListener("click", function () {
+//   console.log('close-bracket clicked')
+//   userOutput.value += '.';
+// })
 
 
+// let userClick = document.querySelectorAll('.arithmetic-operator')
 
-
-
+// console.log(userClick)
