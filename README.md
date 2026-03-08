@@ -20,7 +20,6 @@ Version 1.1.0
 
 + User Input Calculated With Brackets 
 
-
 Version 2.0.0
 
 + Calculator Application Ideal Solution Checked
